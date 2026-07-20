@@ -1,0 +1,728 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 196,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "cf026d6d-2160-4792-9b75-95e5036b9785"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "A"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "dtdhms"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 75,
+      "options": {
+        "SVGBaseFix": true,
+        "add100Percentage": true,
+        "calcsMutation": "standard",
+        "centerAlignContent": true,
+        "codeData": "{\n  \"text\": \"Random text\"\n}",
+        "css": "",
+        "dynamicData": false,
+        "dynamicFieldDisplayValues": false,
+        "dynamicHtmlGraphics": false,
+        "dynamicProps": false,
+        "html": "<div style=\"text-align: center;\">\n  <div class=\"box\" id=\"htmlgraphics-value\"></div>\n</div>\n",
+        "onInit": "// Sets the text from customProperties\nconst htmlgraphicsText = htmlNode.getElementById('htmlgraphics-text');\n\nif (htmlgraphicsText) {\n  htmlgraphicsText.textContent = customProperties.text;\n\n  // Change the text color based on the theme\n  if (theme.isDark) {\n    htmlgraphicsText.style.color = 'green';\n  } else {\n    htmlgraphicsText.style.color = 'red';\n  }\n}\n",
+        "onInitOnResize": false,
+        "onRender": "// Captura o elemento HTML onde o valor será exibido\nconst htmlgraphicsValue = htmlNode.getElementById('htmlgraphics-value');\n\nif (htmlgraphicsValue) {\n  // Verifica se há dados na resposta\n  if (data && data.series && data.series.length > 0) {\n    // Recupera o valor da primeira série\n    const valueField = data.series[0].fields[1]; // Assumindo que o valor está no primeiro campo da série\n\n    if (valueField) {\n      // Exibe o valor no elemento HTML\n      const valueInSeconds = valueField.values.get(valueField.values.length - 1);\n\n      // Converte o uptime para o formato desejado\n      let seconds = valueInSeconds;\n      let days = Math.floor(seconds / (24 * 60 * 60));\n      seconds -= days * 24 * 60 * 60;\n      let hrs = Math.floor(seconds / 3600);\n      seconds -= hrs * 3600;\n      let mnts = Math.floor(seconds / 60);\n      seconds -= mnts * 60;\n\n      // Formata para sempre ter dois dígitos\n      let formattedHrs = String(hrs).padStart(2, '0');\n      let formattedMnts = String(mnts).padStart(2, '0');\n      let formattedSeconds = String(seconds).padStart(2, '0');\n\n      uptimeInSeconds = `${days} d ${formattedHrs}:${formattedMnts}:${formattedSeconds}`;\n\n      htmlgraphicsValue.innerHTML = `\n      <div style=\"\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  height: 27px; /* Altura ajustável */\n  background: url('https://static.wixstatic.com/media/c319a6_fd2ffebb0736449d9265be8744b3ba78~mv2.webp');\n  background-size: cover; /* Cobrir todo o elemento */\n  background-repeat: no-repeat;\n  background-position: center;\n  padding: 31px; /* Padding para ajustar o espaço interno */\n  border-radius: 100px; /* Border-radius para uma aparência mais arredondada */\n  width: auto; /* Largura ajustável */\n\">\n   <div style=\"margin-right: 10px;\">\n      <img src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Zabbix_logo.svg/2560px-Zabbix_logo.svg.png\" width=\"150px\" style=\"margin-right: 0px;\" />\n    </div>\n    <div style=\"flex-grow: 1; text-align: center;\">\n      <span style=\"color:#ffffff; font-size: 35px; font-weight: bold; font-family: Arial, sans-serif; vertical-align: middle;\">Monitoramento - BGP</span>\n</div>\n<div class=\"box\" style=\"\n  background: linear-gradient(to right, #3BAFAA, #1E8C93); /* Cor de fundo verde */\n  padding: 8px; /* Espaçamento interno */\n  border-radius: 20px; /* Ajuste para tornar o elemento um retângulo com cantos arredondados */\n  width: 210px; /* Largura do retângulo */\n  height: 37px; /* Altura do retângulo */\n  display: flex;\n  justify-content: center;\n  align-items: center;\n\n\">\n  <span style=\"color: white; font-weight: ; font-size: 17px;\">Uptime ${uptimeInSeconds}</span>\n</div>\n      `;\n    } else {\n      htmlgraphicsValue.textContent = \"No data\";\n    }\n  } else {\n    htmlgraphicsValue.textContent = \"No data\";\n  }\n}\n",
+        "overflow": "hidden",
+        "panelupdateOnMount": true,
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull",
+            "last",
+            "first",
+            "firstNotNull",
+            "min",
+            "max",
+            "mean",
+            "sum",
+            "count",
+            "range",
+            "delta",
+            "step",
+            "diff",
+            "logmin",
+            "allIsZero",
+            "allIsNull",
+            "diffperc"
+          ]
+        },
+        "renderOnMount": true,
+        "rootCSS": "html, body {\r\n  height: 100%;\r\n  margin: 0;\r\n  padding: 0;\r\n  font-family: 'Segoe UI', sans-serif;\r\n  background: linear-gradient(135deg, #1d3946 0%, #121c2d 100%);\r\n  backdrop-filter: blur(8px);\r\n  color: #ffffff;\r\n  box-sizing: border-box;\r\n}\r\n\r\n/* Painéis com efeito vidro na versão 11 */\r\ndiv[class*=\"-panel-content\"][data-testid*=\"panel content\"] {\r\n  background: rgba(10, 45, 59, 0.801) !important;\r\n  border: 1px solid rgba(86, 213, 220, 0.2);\r\n  border-radius: 6px;\r\n  backdrop-filter: blur(10px);\r\n  box-shadow: 0 0 8px rgba(0, 255, 255, 0.02);\r\n  overflow: hidden;\r\n  transition: all 0.3s ease-in-out;\r\n  will-change: box-shadow, border-color;\r\n}\r\n\r\n/* Hover com destaque */\r\ndiv[class*=\"-panel-content\"][data-testid*=\"panel content\"]:hover {\r\n  box-shadow: 0 0 25px rgba(0, 255, 255, 0.15);\r\n  border-color: rgba(0, 255, 255, 0.2);\r\n}\r\n",
+        "useGrafanaScrollbar": true
+      },
+      "pluginVersion": "2.2.1",
+      "targets": [
+        {
+          "application": {
+            "filter": ""
+          },
+          "countTriggersBy": "",
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "jPs3kGrnz"
+          },
+          "evaltype": "0",
+          "functions": [
+            {
+              "added": true,
+              "def": {
+                "category": "Aggregate",
+                "defaultParams": [],
+                "name": "sumSeries",
+                "params": []
+              },
+              "params": [],
+              "text": "sumSeries()"
+            }
+          ],
+          "group": {
+            "filter": "/.*/"
+          },
+          "hide": false,
+          "host": {
+            "filter": "Zabbix server"
+          },
+          "item": {
+            "filter": "System uptime"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "macro": {
+            "filter": ""
+          },
+          "options": {
+            "count": false,
+            "disableDataAlignment": false,
+            "showDisabledItems": false,
+            "skipEmptyValues": false,
+            "useTrends": "default",
+            "useZabbixValueMapping": false
+          },
+          "proxy": {
+            "filter": ""
+          },
+          "queryType": "0",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "schema": 12,
+          "table": {
+            "skipEmptyValues": false
+          },
+          "tags": {
+            "filter": ""
+          },
+          "textFilter": "",
+          "trigger": {
+            "filter": ""
+          }
+        }
+      ],
+      "title": "",
+      "transparent": true,
+      "type": "gapit-htmlgraphics-panel"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "da21d1ff-a442-4de3-bea5-852819006f0f"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 28,
+        "w": 24,
+        "x": 0,
+        "y": 3
+      },
+      "id": 74,
+      "options": {
+        "SVGBaseFix": true,
+        "add100Percentage": true,
+        "calcsMutation": "standard",
+        "centerAlignContent": true,
+        "codeData": "{\n  \"text\": \"Random text\"\n}",
+        "css": "/* =========================\n   ISPX Sea-Glass+ — Otimizado (HTML Graphics)\n   - Menos repetição\n   - Menor especificidade (where)\n   - Mantém: scroll, paginação, tooltip, widths fix\n   ========================= */\n\n#ispx-root, #ispx-root *{ box-sizing:border-box; }\n\n#ispx-root{\n  font-family: Inter, system-ui, -apple-system, \"Segoe UI\", Roboto, Arial, sans-serif;\n  color: rgba(255,255,255,.92);\n\n  /* paleta */\n  --bg0:#050A14;\n  --bg1: rgba(15, 25, 40, .55);\n  --bg2: rgba(10, 18, 32, .72);\n\n  --stroke:  rgba(110,200,255,.18);\n  --stroke2: rgba(110,200,255,.12);\n\n  --pri:#2BD9C7;\n  --pri2:#22B3C2;\n\n  --good:#22C55E;\n  --warn:#F59E0B;\n  --bad:#EF4444;\n\n  --txt: rgba(255,255,255,.92);\n  --muted: rgba(255,255,255,.65);\n\n  --r12:12px;\n  --r16:16px;\n\n  --shadow:  0 10px 26px rgba(0,0,0,.35);\n  --shadow2: 0  8px 20px rgba(0,0,0,.28);\n\n  /* altura máxima da tabela (pode ajustar no painel) */\n  --tableMax: calc(100vh - 260px);\n\n  /* FORCE HEIGHT CHAIN */\n  height:100% !important;\n  min-height:0 !important;\n}\n\n/* ========= layout ========= */\n#ispx-root :where(.u-wrap){\n  padding:10px;\n  background:\n    radial-gradient(1000px 500px at 20% 0%, rgba(43,217,199,.16), transparent 60%),\n    radial-gradient(900px 500px at 80% 0%, rgba(34,179,194,.12), transparent 60%);\n\n  height:100% !important;\n  min-height:0 !important;\n  display:flex !important;\n  flex-direction:column !important;\n}\n\n#ispx-root :where(.u-head){\n  display:flex;\n  align-items:flex-end;\n  justify-content:space-between;\n  gap:12px;\n  padding:10px 12px;\n  border-radius:var(--r16);\n  background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));\n  border:1px solid var(--stroke2);\n  box-shadow:var(--shadow2);\n  flex:0 0 auto !important;\n}\n\n#ispx-root :where(.u-title h2){\n  margin:0;\n  font-size:16px;\n  letter-spacing:.2px;\n}\n#ispx-root :where(.u-title .sub){\n  margin-top:3px;\n  font-size:12px;\n  color:var(--muted);\n}\n\n#ispx-root :where(.u-meta){ display:flex; gap:8px; flex-wrap:wrap; }\n#ispx-root :where(.u-chip){\n  padding:6px 10px;\n  border-radius:999px;\n  background:rgba(0,0,0,.35);\n  border:1px solid var(--stroke2);\n  color:rgba(255,255,255,.85);\n  font-size:12px;\n}\n\n#ispx-root :where(.u-grid){\n  margin-top:10px;\n  display:grid;\n  grid-template-columns:360px 1fr;\n  gap:10px;\n\n  flex:1 1 auto !important;\n  min-height:0 !important;\n}\n\n/* ========= left ========= */\n#ispx-root :where(.u-left){\n  display:flex;\n  flex-direction:column;\n  gap:10px;\n  min-height:0 !important;\n}\n\n#ispx-root :where(.u-box){\n  border-radius:var(--r16);\n  border:1px solid var(--stroke2);\n  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));\n  box-shadow:var(--shadow2);\n  padding:10px;\n}\n\n#ispx-root :where(.u-box .u-box-title){\n  display:flex;\n  align-items:center;\n  justify-content:space-between;\n  gap:10px;\n  margin-bottom:8px;\n}\n#ispx-root :where(.u-box .u-box-title .t){\n  font-weight:700;\n  font-size:12px;\n  letter-spacing:.25px;\n  color:rgba(255,255,255,.86);\n}\n#ispx-root :where(.u-box .u-box-title .hint){\n  font-size:11px;\n  color:var(--muted);\n}\n\n#ispx-root :where(.u-kpis){\n  display:grid;\n  grid-template-columns:1fr 1fr;\n  gap:8px;\n}\n#ispx-root :where(.u-kpi){\n  padding:10px;\n  border-radius:var(--r12);\n  background:rgba(0,0,0,.32);\n  border:1px solid var(--stroke2);\n  box-shadow:0 6px 16px rgba(0,0,0,.22);\n}\n#ispx-root :where(.u-kpi .l){ font-size:11px; color:var(--muted); }\n#ispx-root :where(.u-kpi .v){ font-size:16px; font-weight:800; margin-top:4px; }\n\n#ispx-root :where(.u-kpi.good .v){ color:var(--good); }\n#ispx-root :where(.u-kpi.warn .v){ color:var(--warn); }\n#ispx-root :where(.u-kpi.bad  .v){ color:var(--bad); }\n#ispx-root :where(.u-kpi.pri  .v){ color:var(--pri); }\n\n#ispx-root :where(.u-vrfs){ display:flex; flex-wrap:wrap; gap:6px; }\n#ispx-root :where(.u-pill){\n  padding:6px 10px;\n  border-radius:999px;\n  font-size:12px;\n  cursor:pointer;\n  user-select:none;\n  border:1px solid var(--stroke2);\n  background:rgba(0,0,0,.30);\n  color:rgba(255,255,255,.84);\n}\n#ispx-root :where(.u-pill.on){\n  border-color:rgba(43,217,199,.45);\n  background:rgba(43,217,199,.12);\n}\n\n/* ========= top ========= */\n#ispx-root :where(.u-tabs){ display:flex; gap:6px; flex-wrap:wrap; }\n#ispx-root :where(.u-tabs button){\n  padding:6px 10px;\n  border-radius:999px;\n  border:1px solid var(--stroke2);\n  background:rgba(0,0,0,.26);\n  color:rgba(255,255,255,.82);\n  cursor:pointer;\n}\n#ispx-root :where(.u-tabs button.on){\n  border-color:rgba(43,217,199,.50);\n  background:rgba(43,217,199,.12);\n}\n\n#ispx-root :where(.u-top){ width:100%; border-collapse:collapse; }\n#ispx-root :where(.u-top th, .u-top td){\n  padding:8px;\n  border-bottom:1px solid rgba(255,255,255,.06);\n  font-size:12px;\n}\n#ispx-root :where(.u-top th){ text-align:left; color:var(--muted); font-weight:700; }\n#ispx-root :where(.u-top td b){ color:rgba(255,255,255,.92); }\n\n/* ========= botão histórico ========= */\n#ispx-root :where(.u-hbtn){\n  padding:6px 8px;\n  border-radius:10px;\n  border:1px solid rgba(110,200,255,.16);\n  background:rgba(0,0,0,.30);\n  color:rgba(255,255,255,.85);\n  cursor:pointer;\n  font-size:12px;\n  line-height:1;\n}\n#ispx-root :where(.u-hbtn:hover){\n  background:rgba(43,217,199,.10);\n  border-color:rgba(43,217,199,.35);\n}\n\n/* ========= right ========= */\n#ispx-root :where(.u-right){\n  display:flex;\n  flex-direction:column;\n  min-height:0 !important;\n  gap:10px;\n}\n\n#ispx-root :where(.u-search){\n  display:flex;\n  gap:10px;\n  align-items:center;\n  justify-content:space-between;\n  padding:10px 12px;\n  border-radius:var(--r16);\n  border:1px solid var(--stroke2);\n  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));\n  box-shadow:var(--shadow2);\n\n  flex:0 0 auto !important;\n}\n#ispx-root :where(.u-search input){\n  width:100%;\n  padding:10px 12px;\n  border-radius:12px;\n  border:1px solid rgba(110,200,255,.16);\n  background:rgba(0,0,0,.35);\n  color:rgba(255,255,255,.92);\n  outline:none;\n}\n#ispx-root :where(.u-search .count){\n  font-size:12px;\n  color:var(--muted);\n  white-space:nowrap;\n}\n\n/* scroll wrapper */\n#ispx-root :where(.u-table-scroll){\n  border-radius:var(--r16);\n  border:1px solid var(--stroke2);\n  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));\n  box-shadow:var(--shadow2);\n\n  flex:1 1 auto !important;\n  min-height:0 !important;\n  overflow:auto !important;\n  scrollbar-gutter:stable;\n  max-height:var(--tableMax) !important;\n}\n\n/* ========= table ========= */\n#ispx-root :where(.u-table){\n  width:100%;\n  border-collapse:collapse;\n}\n#ispx-root :where(.u-table thead th){\n  position:sticky;\n  top:0;\n  z-index:2;\n  background:rgba(0,0,0,.62);\n  border-bottom:1px solid rgba(255,255,255,.08);\n\n  font-size:12px;\n  text-align:left;\n  padding:10px 10px;\n  color:rgba(255,255,255,.70);\n  font-weight:800;\n}\n\n#ispx-root :where(.u-table td){\n  padding:10px 10px;\n  border-bottom:1px solid rgba(255,255,255,.06);\n  font-size:12px;\n  color:rgba(255,255,255,.86);\n}\n#ispx-root :where(.u-table tr:hover td){ background:rgba(43,217,199,.06); }\n#ispx-root :where(.u-table .center){ text-align:center; }\n#ispx-root :where(.u-table td.client){ font-weight:800; }\n\n/* ========= sort ========= */\n#ispx-root :where(.u-table thead th.sortable){\n  cursor:pointer;\n  user-select:none;\n}\n#ispx-root :where(.u-table thead th.sortable:hover){ color:rgba(255,255,255,.86); }\n\n#ispx-root :where(.u-table thead th.sortable::after){\n  content:\"\";\n  display:inline-block;\n  margin-left:6px;\n  opacity:.55;\n  transform:translateY(-1px);\n}\n#ispx-root :where(.u-table thead th.sort-asc::after){ content:\"▲\"; opacity:.75; }\n#ispx-root :where(.u-table thead th.sort-desc::after){ content:\"▼\"; opacity:.75; }\n\n/* pills */\n#ispx-root :where(.pill){\n  display:inline-flex;\n  align-items:center;\n  justify-content:center;\n  min-width:34px;\n  padding:4px 10px;\n  border-radius:999px;\n  font-size:12px;\n  border:1px solid rgba(255,255,255,.10);\n  background:rgba(0,0,0,.28);\n}\n#ispx-root :where(.pill.pri){  color:var(--pri);  border-color:rgba(43,217,199,.30); background:rgba(43,217,199,.10); }\n#ispx-root :where(.pill.good){ color:var(--good); border-color:rgba(34,197,94,.28); background:rgba(34,197,94,.10); }\n#ispx-root :where(.pill.warn){ color:var(--warn); border-color:rgba(245,158,11,.28); background:rgba(245,158,11,.10); }\n#ispx-root :where(.pill.bad){  color:var(--bad);  border-color:rgba(239,68,68,.28);  background:rgba(239,68,68,.10); }\n\n/* expand button */\n#ispx-root :where(.u-exp){\n  width:34px;\n  height:28px;\n  border-radius:10px;\n  border:1px solid rgba(110,200,255,.16);\n  background:rgba(0,0,0,.30);\n  color:rgba(255,255,255,.85);\n  cursor:pointer;\n}\n#ispx-root :where(.u-exp .arrow){\n  display:inline-block;\n  transition:transform .18s ease;\n}\n#ispx-root :where(.u-exp[aria-expanded=\"true\"] .arrow){ transform:rotate(90deg); }\n\n/* child row */\n#ispx-root :where(.u-child){ display:none; }\n#ispx-root :where(.child-wrap){\n  padding:10px;\n  border-radius:var(--r12);\n  background:rgba(0,0,0,.25);\n  border:1px solid rgba(110,200,255,.10);\n}\n#ispx-root :where(.u-mini-sub){\n  width:100%;\n  border-collapse:collapse;\n}\n#ispx-root :where(.u-mini-sub th, .u-mini-sub td){\n  padding:8px;\n  border-bottom:1px solid rgba(255,255,255,.06);\n  font-size:12px;\n}\n#ispx-root :where(.u-mini-sub th){\n  color:rgba(255,255,255,.65);\n  text-align:left;\n  font-weight:800;\n}\n\n/* modal */\n#ispx-root :where(.u-modal){\n  position:fixed;\n  inset:0;\n  background:rgba(0,0,0,.5);\n  display:none;\n  align-items:center;\n  justify-content:center;\n  padding:20px;\n  z-index:9999;\n}\n#ispx-root :where(.u-modal.on){\n  display:flex;\n}\n#ispx-root :where(.u-modal .box){\n  width:min(900px, 96vw);\n  border-radius:var(--r16);\n  border:1px solid var(--stroke2);\n  background:rgba(10,18,32,.92);\n  box-shadow:var(--shadow);\n}\n#ispx-root :where(.u-modal .head){\n  display:flex;\n  justify-content:space-between;\n  align-items:center;\n  padding:12px 14px;\n  border-bottom:1px solid rgba(255,255,255,.08);\n}\n#ispx-root :where(.u-modal .head .t){ font-weight:900; }\n#ispx-root :where(.u-modal .head button){\n  padding:8px 10px;\n  border-radius:10px;\n  border:1px solid rgba(110,200,255,.16);\n  background:rgba(0,0,0,.30);\n  color:rgba(255,255,255,.86);\n  cursor:pointer;\n}\n#ispx-root :where(.u-modal .content){ padding:14px; }\n\n/* responsivo */\n@media (max-width:1100px){\n  #ispx-root :where(.u-grid){ grid-template-columns:1fr; }\n}\n\n/* ==========================================\n   PAGINAÇÃO\n   ========================================== */\n#ispx-root :where(.u-pagination){\n  display:flex;\n  align-items:center;\n  justify-content:space-between;\n  gap:10px;\n  padding:10px 12px;\n  border-radius:var(--r16);\n  border:1px solid var(--stroke2);\n  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));\n  box-shadow:var(--shadow2);\n}\n#ispx-root :where(.u-pagination .left, .u-pagination .right){\n  display:flex;\n  align-items:center;\n  gap:8px;\n}\n#ispx-root :where(.u-pagination button){\n  padding:8px 10px;\n  border-radius:10px;\n  border:1px solid rgba(110,200,255,.16);\n  background:rgba(0,0,0,.30);\n  color:rgba(255,255,255,.86);\n  cursor:pointer;\n}\n#ispx-root :where(.u-pagination button:disabled){\n  opacity:.45;\n  cursor:not-allowed;\n}\n#ispx-root :where(.u-pagination .info){\n  font-size:12px;\n  color:var(--muted);\n  white-space:nowrap;\n}\n#ispx-root :where(.u-pagination select){\n  padding:8px 10px;\n  border-radius:10px;\n  border:1px solid rgba(110,200,255,.16);\n  background:rgba(0,0,0,.30);\n  color:rgba(255,255,255,.86);\n  outline:none;\n}\n\n/* ==========================================\n   LAST ERROR — tooltip flutuante\n   Requer ONRENDER com .le-help + data-tip\n   ========================================== */\n#ispx-root :where(.le-wrap){\n  display:flex;\n  align-items:center;\n  gap:8px;\n}\n\n#ispx-root :where(.le-help){\n  position:relative;\n  display:inline-flex;\n  align-items:center;\n  justify-content:center;\n  width:18px;\n  height:18px;\n  border-radius:999px;\n  border:1px solid rgba(110,200,255,.22);\n  background:rgba(0,0,0,.28);\n  color:rgba(255,255,255,.82);\n  font-weight:900;\n  font-size:12px;\n  line-height:1;\n  cursor:help;\n  user-select:none;\n  pointer-events:auto;\n}\n\n/* Desliga tooltip antigo CSS-only */\n#ispx-root :where(.le-help::after, .le-help::before){ display:none !important; }\n\n/* Tooltip global (injetado no <body> pelo JS) */\n.le-float-tip{\n  position:fixed;\n  z-index:999999;\n  max-width:min(440px, 72vw);\n  padding:10px 12px;\n  border-radius:12px;\n  border:1px solid rgba(110,200,255,.18);\n  background:rgba(10,18,32,.96);\n  box-shadow:0 12px 26px rgba(0,0,0,.38);\n  color:rgba(255,255,255,.92);\n  font-size:12px;\n  line-height:1.25;\n  pointer-events:none;\n  opacity:0;\n  transform:translateY(4px);\n  transition:opacity .08s ease, transform .08s ease;\n}\n.le-float-tip.is-on{ opacity:1; transform:translateY(0); }\n\n.le-float-arrow{\n  position:fixed;\n  z-index:999999;\n  width:10px;\n  height:10px;\n  background:rgba(10,18,32,.96);\n  border-left:1px solid rgba(110,200,255,.18);\n  border-top:1px solid rgba(110,200,255,.18);\n  transform:rotate(45deg);\n  pointer-events:none;\n  opacity:0;\n  transition:opacity .08s ease;\n}\n.le-float-arrow.is-on{ opacity:1; }\n\n/* =========================================================\n   FIX WIDTHS — sobrescreve inline widths\n   ========================================================= */\n\n/* layout fixo pra respeitar widths */\n#ispx-root :where(table.u-table, table.u-mini-sub){\n  table-layout:fixed !important;\n  width:100% !important;\n}\n\n/* ---------- TABELA PRINCIPAL ----------\n   1 CLIENTE, 2 ASN, 3 HOST, 4 SESSÕES, 5 UP, 6 ALERT, 7 0PFX, 8 AÇÃO\n*/\n#ispx-root :where(table.u-table thead th[data-col=\"client\"], table.u-table tbody td:nth-child(1)){ width:38% !important; }\n#ispx-root :where(table.u-table thead th[data-col=\"asn\"],    table.u-table tbody td:nth-child(2)){ width:10% !important; }\n#ispx-root :where(table.u-table thead th[data-col=\"host\"],   table.u-table tbody td:nth-child(3)){ width:18% !important; }\n#ispx-root :where(table.u-table thead th[data-col=\"sessions\"],table.u-table tbody td:nth-child(4)){ width: 9% !important; }\n#ispx-root :where(table.u-table thead th[data-col=\"up\"],     table.u-table tbody td:nth-child(5)){ width: 7% !important; }\n#ispx-root :where(table.u-table thead th[data-col=\"alert\"],  table.u-table tbody td:nth-child(6)){ width: 7% !important; }\n#ispx-root :where(table.u-table thead th[data-col=\"nopfx\"],  table.u-table tbody td:nth-child(7)){ width: 7% !important; }\n#ispx-root :where(table.u-table thead th:not([data-col]),    table.u-table tbody td:nth-child(8)){ width: 4% !important; }\n\n#ispx-root :where(table.u-table tbody td:nth-child(1)){\n  white-space:nowrap;\n  overflow:hidden;\n  text-overflow:ellipsis;\n}\n\n/* ---------- MINI TABELA (expand) ----------\n   1 IPVER, 2 VRF, 3 PEER, 4 STATUS, 5 UPTIME, 6 TOTAL PREFIX, 7 LAST ERROR, 8 HIST\n*/\n#ispx-root :where(table.u-mini-sub thead th:nth-child(1), table.u-mini-sub tbody td:nth-child(1)){ width: 7% !important; }\n#ispx-root :where(table.u-mini-sub thead th:nth-child(2), table.u-mini-sub tbody td:nth-child(2)){ width:11% !important; }\n#ispx-root :where(table.u-mini-sub thead th:nth-child(3), table.u-mini-sub tbody td:nth-child(3)){\n  width:18% !important;\n  word-break:break-all;\n}\n#ispx-root :where(table.u-mini-sub thead th:nth-child(4), table.u-mini-sub tbody td:nth-child(4)){ width:11% !important; }\n#ispx-root :where(table.u-mini-sub thead th:nth-child(5), table.u-mini-sub tbody td:nth-child(5)){ width:13% !important; }\n#ispx-root :where(table.u-mini-sub thead th:nth-child(6), table.u-mini-sub tbody td:nth-child(6)){ width:10% !important; }\n#ispx-root :where(table.u-mini-sub thead th:nth-child(7), table.u-mini-sub tbody td:nth-child(7)){ width:30% !important; }\n#ispx-root :where(table.u-mini-sub thead th:nth-child(8), table.u-mini-sub tbody td:nth-child(8)){ width: 7% !important; }\n\n/* ===== TOP CLIENTES dropdown (Por Quedas) ===== */\n#ispx-root :where(.u-top tr.top-row){ cursor:pointer; }\n#ispx-root :where(.u-top tr.top-row:hover){\n  background:rgba(255,255,255,.03);\n}\n\n#ispx-root :where(.u-top tr.top-details td){\n  padding:10px 8px;\n  background:rgba(0,0,0,.22);\n  border-bottom:1px solid rgba(255,255,255,.06);\n}\n\n#ispx-root :where(.u-flapbox){\n  border:1px solid rgba(110,200,255,.14);\n  border-radius:12px;\n  background:rgba(0,0,0,.18);\n  padding:8px;\n  max-height:220px;\n  overflow:auto;\n}\n\n#ispx-root :where(.u-flapbox .h){\n  display:flex;\n  justify-content:space-between;\n  align-items:center;\n  margin-bottom:6px;\n  font-size:12px;\n  color:rgba(255,255,255,.80);\n}\n\n#ispx-root :where(.u-flapbox table){\n  width:100%;\n  border-collapse:collapse;\n  font-size:12px;\n}\n#ispx-root :where(.u-flapbox th, .u-flapbox td){\n  padding:6px 6px;\n  border-bottom:1px solid rgba(255,255,255,.06);\n  vertical-align:top;\n}\n#ispx-root :where(.u-flapbox th){ color:rgba(255,255,255,.65); font-weight:700; text-align:left; }\n\n#ispx-root :where(.u-mini-pill){\n  display:inline-block;\n  padding:2px 8px;\n  border-radius:999px;\n  border:1px solid rgba(255,255,255,.10);\n  background:rgba(0,0,0,.25);\n  font-size:11px;\n  opacity:.95;\n}\n\n\n/* v5: (opcional) garantir que nada clipe o popover (popover está no body, mas mantemos safe) */\n",
+        "dynamicData": true,
+        "dynamicFieldDisplayValues": true,
+        "dynamicHtmlGraphics": true,
+        "dynamicProps": true,
+        "html": "<div class=\"u-wrap\" id=\"ispx-root\">\n  <!-- HEADER -->\n  <div class=\"u-head\">\n    <div class=\"u-title\">\n      <h2>Visão detalhada das Sessões BGP </h2>\n      <div class=\"sub\">Status das Sessões BGP</div>\n    </div>\n\n    <div class=\"u-meta\">\n      <div class=\"u-chip\" id=\"peersCount\">0 peers</div>\n      <div class=\"u-chip\" id=\"rowsHint\">0 linhas</div>\n      <div class=\"u-chip\" id=\"lastUpdate\">Atualizado: -</div>\n    </div>\n  </div>\n\n  <div class=\"u-grid\">\n    <!-- LEFT -->\n    <div class=\"u-left\">\n      <!-- KPIs -->\n      <div class=\"u-box\">\n        <div class=\"u-box-title\">\n          <div class=\"t\">RESUMO </div>\n          <div class=\"hint\"></div>\n        </div>\n\n        <div class=\"u-kpis\">\n          <div class=\"u-kpi pri\">\n            <div class=\"l\">Total Sessões</div>\n            <div class=\"v\" id=\"kpiTotal\">0</div>\n          </div>\n          <div class=\"u-kpi good\">\n            <div class=\"l\">Estabelecidas</div>\n            <div class=\"v\" id=\"kpiUp\">0</div>\n          </div>\n          <div class=\"u-kpi bad\">\n            <div class=\"l\">Alertas</div>\n            <div class=\"v\" id=\"kpiAl\">0</div>\n          </div>\n          <div class=\"u-kpi warn\">\n            <div class=\"l\">Estab. c/ 0 prefix</div>\n            <div class=\"v\" id=\"kpiNoPfx\">0</div>\n          </div>\n        </div>\n      </div>\n\n      <!-- VRF Pills -->\n      <div class=\"u-box\">\n        <div class=\"u-box-title\">\n          <div class=\"t\">VRF</div>\n          <div class=\"hint\">Filtro rápido</div>\n        </div>\n        <div class=\"u-vrfs\" id=\"vrfPills\"></div>\n      </div>\n\n      <!-- TOP -->\n      <div class=\"u-box\">\n        <div class=\"u-box-title\">\n          <div class=\"t\">TOP CLIENTES</div>\n          <div class=\"hint\">Escopo atual</div>\n        </div>\n\n        <div class=\"u-tabs\" id=\"topScope\">\n          <button class=\"on\" data-scope=\"sessions\">Por Sessões</button>\n          <button data-scope=\"established\">Por Sessões Up</button>\n          <button data-scope=\"prefixes\">Por Prefixos</button>\n          <button data-scope=\"flaps\">Por Quedas</button>\n        </div>\n\n        <table class=\"u-top\">\n          <thead>\n            <tr><th>Cliente</th><th>Dados</th></tr>\n          </thead>\n          <tbody id=\"topBody\"></tbody>\n        </table>\n      </div>\n    </div>\n\n    <!-- RIGHT -->\n    <div class=\"u-right\">\n      <div class=\"u-search\">\n        <input id=\"search\" placeholder=\"Buscar por Cliente / ASN / Host...\" />\n        <div class=\"count\" id=\"tableCount\">0 linhas</div>\n      </div>\n\n      <div class=\"u-table-scroll\">\n        <table class=\"u-table\">\n          <thead>\n            <tr>\n              <th class=\"sortable\" data-col=\"client\" style=\"width:28%\">CLIENTE</th>\n              <th class=\"sortable\" data-col=\"asn\" style=\"width:12%\">ASN</th>\n              <th class=\"sortable\" data-col=\"host\" style=\"width:18%\">HOST</th>\n              <th class=\"sortable center\" data-col=\"sessions\" style=\"width:10%\">SESSÕES</th>\n              <th class=\"sortable center\" data-col=\"up\" style=\"width:10%\">UP</th>\n              <th class=\"sortable center\" data-col=\"alert\" style=\"width:10%\">ALERTAS</th>\n              <th class=\"sortable center\" data-col=\"nopfx\" style=\"width:10%\">0 PFX</th>\n              <th class=\"center\" style=\"width:6%\"></th>\n            </tr>\n          </thead>\n          <tbody id=\"bgpTableBody\"></tbody>\n        </table>\n      </div>\n\n      <!-- PAGINAÇÃO -->\n      <div class=\"u-pagination\" id=\"pager\">\n        <div class=\"left\">\n          <button id=\"pgPrev\">← Anterior</button>\n          <button id=\"pgNext\">Próxima →</button>\n          <span class=\"info\" id=\"pgInfo\">Página 1/1</span>\n        </div>\n        <div class=\"right\">\n          <span class=\"info\">Linhas/página</span>\n          <select id=\"pgSize\">\n            <option value=\"15\" selected>15</option>\n            <option value=\"25\">25</option>\n            <option value=\"40\">40</option>\n          </select>\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <!-- modal (mantido) -->\n  <div class=\"u-modal\" id=\"modal\">\n    <div class=\"box\">\n      <div class=\"head\">\n        <div class=\"t\" id=\"modalTitle\">Detalhes</div>\n        <button id=\"modalClose\">Fechar</button>\n      </div>\n      <div class=\"content\" id=\"modalContent\"></div>\n    </div>\n  </div>\n</div>\n",
+        "onInit": "// Sets the text from customProperties\nconst htmlgraphicsText = htmlNode.getElementById('htmlgraphics-text');\n\nif (htmlgraphicsText) {\n  htmlgraphicsText.textContent = customProperties.text;\n\n  // Change the text color based on the theme\n  if (theme.isDark) {\n    htmlgraphicsText.style.color = 'green';\n  } else {\n    htmlgraphicsText.style.color = 'red';\n  }\n}\n",
+        "onInitOnResize": true,
+        "onRender": "(() => {\n  try {\n    const root = htmlNode;\n    if (!root) return;\n\n    const q  = (sel) => root.querySelector(sel);\n    const qa = (sel) => Array.from(root.querySelectorAll(sel));\n    const setText = (sel, v) => { const el = q(sel); if (el) el.textContent = v; };\n\n    // ========= helpers =========\n    const safeStr = (v) => (v === null || v === undefined) ? \"\" : String(v);\n    const toNum = (v) => {\n      const n = Number(v);\n      return Number.isFinite(n) ? n : 0;\n    };\n    function fmtPrefixes(n) {\n  if (!Number.isFinite(n)) return \"0\";\n  if (n >= 1e9) return (n / 1e9).toFixed(2).replace(/\\.0+$/, \"\") + \"B\";\n  if (n >= 1e6) return (n / 1e6).toFixed(2).replace(/\\.0+$/, \"\") + \"M\";\n  if (n >= 1e3) return (n / 1e3).toFixed(2).replace(/\\.0+$/, \"\") + \"K\";\n  return String(n);\n}\n\n    const esc = (s) => safeStr(s)\n      .replaceAll(\"&\",\"&amp;\").replaceAll(\"<\",\"&lt;\").replaceAll(\">\",\"&gt;\")\n      .replaceAll('\"',\"&quot;\").replaceAll(\"'\",\"&#39;\");\n\n    // ========= time normalize =========\n    function normTs(v){\n      try {\n        if (v === null || v === undefined) return null;\n\n        if (v instanceof Date) {\n          const t = v.getTime();\n          return Number.isFinite(t) ? t : null;\n        }\n\n        if (typeof v === \"string\") {\n          const s = v.trim();\n          if (!s) return null;\n\n          const n = Number(s);\n          if (Number.isFinite(n)) return normTs(n);\n\n          const p = Date.parse(s);\n          return Number.isFinite(p) ? p : null;\n        }\n\n        let n = Number(v);\n        if (!Number.isFinite(n)) return null;\n\n        if (n >= 1e17) return Math.round(n / 1e6);   // ns -> ms\n        if (n >= 1e14) return Math.round(n / 1e3);   // us -> ms\n        if (n >= 1e11) return Math.round(n);         // ms\n        return Math.round(n * 1000);                 // s -> ms\n      } catch (e) {\n        return null;\n      }\n    }\n\n    // ========= LAST ERROR tooltip (leve) =========\n    const normErr = (s) => safeStr(s).toLowerCase().replace(/\\s+/g, \" \").trim();\n    function explainLastError(raw){\n      const t = normErr(raw);\n      if (!t || t === \"-\") return \"\";\n      if (t.includes(\"hold timer expired\")){\n        return \"Hold Timer Expired: o peer parou de enviar keepalive/updates dentro do tempo. Normalmente indica perda de link, latência/jitter, CPU alta, ACL/policing ou MTU.\";\n      }\n      if (t.includes(\"cease\") && t.includes(\"subcode 02\")){\n        return \"Cease (subcode 02): encerramento administrativo. Geralmente manutenção, reset manual ou alteração de configuração no peer.\";\n      }\n      if (t.includes(\"cease\") && t.includes(\"subcode 03\")){\n        return \"Cease (subcode 03): peer removido/alterado (deconfig). Ex.: neighbor deletado, troca de VRF/IP/policy.\";\n      }\n      if (t.includes(\"finite state machine error\")){\n        return \"Finite State Machine Error: erro interno do processo BGP. Pode ser incompatibilidade/capability, bug de software, ou flap anormal.\";\n      }\n      return \"Erro BGP reportado pelo equipamento. Se recorrente, verifique flaps, MTU, estabilidade do link e policies BGP.\";\n    }\n\n    const fmtUptime = (sec) => {\n      const s = toNum(sec);\n      if (!s) return \"-\";\n      const d = Math.floor(s / 86400);\n      const h = Math.floor((s % 86400) / 3600);\n      const m = Math.floor((s % 3600) / 60);\n      if (d > 0) return `${d}d ${h}h`;\n      if (h > 0) return `${h}h ${m}m`;\n      return `${m}m`;\n    };\n\n    function getLastValue(ser) {\n      const fields = ser?.fields || [];\n      const f = fields.find(x => x?.type !== \"time\") || fields[1] || fields[0];\n      if (!f?.values) return null;\n      const len = f.values.length ?? 0;\n      if (!len) return null;\n      return f.values.get ? f.values.get(len - 1) : f.values[len - 1];\n    }\n\n    function getLastTimestamp(ser) {\n      const fields = ser?.fields || [];\n      const tf = fields.find(x => x?.type === \"time\") || fields.find(x => String(x?.name||\"\").toLowerCase() === \"time\");\n      if (!tf?.values) return null;\n      const len = tf.values.length ?? 0;\n      if (!len) return null;\n      const v = tf.values.get ? tf.values.get(len - 1) : tf.values[len - 1];\n      const ts = normTs(v);\n      return ts;\n    }\n\n    // ========= time series helpers (FIX: pega field correto do STATE) =========\n    function extractTimeValueArrays(ser){\n  const fields = ser?.fields || [];\n\n  const tf =\n    fields.find(f => f?.type === \"time\") ||\n    fields.find(f => String(f?.name||\"\").toLowerCase() === \"time\");\n\n  const nonTime = fields.filter(f => f && f.type !== \"time\");\n\n  const pickByName = (re) =>\n    nonTime.find(f => re.test(String(f?.name||\"\").toLowerCase()));\n\n  const vf =\n    pickByName(/state|bgp.*state/) ||\n    pickByName(/^value$| val$|valor/) ||\n    nonTime.find(f => f?.type === \"number\" || f?.type === \"numeric\") ||\n    nonTime[0];\n\n  const rawTimes  = tf?.values?.toArray ? tf.values.toArray() : (tf?.values || []);\n  const rawValues = vf?.values?.toArray ? vf.values.toArray() : (vf?.values || []);\n\n  const tArr = Array.isArray(rawTimes) ? rawTimes : [];\n  const vArr = Array.isArray(rawValues) ? rawValues : [];\n\n  const L = Math.min(tArr.length, vArr.length);\n\n  const times = [];\n  const values = [];\n\n  for (let i = 0; i < L; i++){\n    const ts = normTs(tArr[i]);\n    const n = Number(vArr[i]);\n    times.push(ts);\n    values.push(Number.isFinite(n) ? n : NaN);\n  }\n\n  return { times, values, valueFieldName: String(vf?.name || \"\") };\n}\n\n\n    function stateNumToName(n){\n      return (n === 0) ? \"RESET\" :\n             (n === 6) ? \"ESTABLISHED\" :\n             (n === 5) ? \"OPENCONFIRM\" :\n             (n === 4) ? \"OPENSENT\" :\n             (n === 3) ? \"ACTIVE\" :\n             (n === 2) ? \"CONNECT\" :\n             (n === 1) ? \"IDLE\" : `STATE_${n}`;\n    }\n\n    function fmtDT(ms){\n      const t = normTs(ms);\n      if (!t) return \"-\";\n      const d = new Date(t);\n      const dd = String(d.getDate()).padStart(2,\"0\");\n      const mm = String(d.getMonth()+1).padStart(2,\"0\");\n      const yy = d.getFullYear();\n      const hh = String(d.getHours()).padStart(2,\"0\");\n      const mi = String(d.getMinutes()).padStart(2,\"0\");\n      const ss = String(d.getSeconds()).padStart(2,\"0\");\n      return `${dd}/${mm}/${yy} ${hh}:${mi}:${ss}`;\n    }\n\n    function extractHost(ser) {\n      for (const f of (ser?.fields || [])) {\n        const lb = f?.labels || {};\n        const cand = lb.host || lb.hostname || lb.instance || lb.device || lb.node || lb.router;\n        if (cand) return String(cand);\n      }\n      const n = safeStr(ser?.name || \"\");\n      const cut = n.indexOf(\":\");\n      if (cut > -1) {\n        const host = n.slice(0, cut).trim();\n        if (host) return host;\n      }\n      return \"-\";\n    }\n\n    // ========= parseName =========\n    function parseName(itemName) {\n      const s = safeStr(itemName).trim();\n      const cut = s.indexOf(\":\");\n      const core = (cut > -1 ? s.slice(cut + 1) : s).trim();\n\n      const re = /^(.+?)\\s+v([46])\\s*\\[([^\\]]+)\\]\\s*\\[([^\\]]+)\\]\\s*(.*?)(?:\\s*\\(AS(\\d+)\\))?\\s*$/i;\n      const m = core.match(re);\n\n      if (m) {\n        const metricRaw = (m[1] || \"\").trim();\n        const ipver = m[2] ? `IPv${m[2]}` : \"-\";\n        const vrf = (m[3] || \"-\").trim();\n        const peer = (m[4] || \"-\").trim();\n        const client = (m[5] || \"-\").trim();\n        const asn = (m[6] || \"\").trim();\n\n        const mr = metricRaw.toLowerCase();\n        let metric = \"other\";\n        if (mr.includes(\"state\")) metric = \"state\";\n        else if (mr.includes(\"uptime\")) metric = \"uptime\";\n        else if (mr.includes(\"prefix\")) metric = \"prefixes\";\n        else if (mr.includes(\"error\")) metric = \"error\";\n\n        return { metric, ipver, vrf, peer, client, asn };\n      }\n      return { metric:\"other\", ipver:\"-\", vrf:\"-\", peer:\"-\", client:\"-\", asn:\"\" };\n    }\n\n    // ========= dados =========\n    const series = Array.isArray(data?.series) ? data.series : [];\n    if (!series.length) {\n      const body = q(\"#bgpTableBody\");\n      if (body) body.innerHTML = `<tr><td colspan=\"8\" style=\"padding:14px;opacity:.75\">Sem séries no datasource.</td></tr>`;\n      setText(\"#peersCount\", \"0 peers\");\n      setText(\"#rowsHint\", \"0 linhas\");\n      setText(\"#tableCount\", \"0 linhas\");\n      setText(\"#kpiTotal\", 0);\n      setText(\"#kpiUp\", 0);\n      setText(\"#kpiAl\", 0);\n      setText(\"#kpiNoPfx\", 0);\n      setText(\"#lastUpdate\", \"Atualizado: -\");\n      const topBody = q(\"#topBody\");\n      if (topBody) topBody.innerHTML = \"\";\n      const pgInfo = q(\"#pgInfo\");\n      if (pgInfo) pgInfo.textContent = \"Página 0/0\";\n      return;\n    }\n\n    // ========= última atualização =========\n    {\n      let maxTs = null;\n      for (const s of series) {\n        const ts = getLastTimestamp(s);\n        if (ts !== null && (maxTs === null || ts > maxTs)) maxTs = ts;\n      }\n      if (maxTs !== null) {\n        const d = new Date(maxTs);\n        const hh = String(d.getHours()).padStart(2, \"0\");\n        const mm = String(d.getMinutes()).padStart(2, \"0\");\n        const ss = String(d.getSeconds()).padStart(2, \"0\");\n        setText(\"#lastUpdate\", `Atualizado: ${hh}:${mm}:${ss}`);\n      } else {\n        setText(\"#lastUpdate\", \"Atualizado: -\");\n      }\n    }\n\n    // ========= monta sessões =========\n    const stateSeriesBySessKey = new Map();  // key completa\nconst stateSeriesByBaseKey = new Map();  // key base (sem client/asn)\nconst uptimeSeriesBySessKey = new Map(); // key completa\nconst uptimeSeriesByBaseKey = new Map(); // key base (sem client/asn)\nconst sessMap = new Map();\n\n\n    for (const s of series) {\n      const host = extractHost(s);\n      const p = parseName(safeStr(s?.name || \"\"));\n      const last = getLastValue(s);\n\nconst baseKey = `${p.vrf}||${p.peer}||${p.ipver}||${host}`;\nconst key = `${baseKey}||${p.client}||${p.asn}`;\n      if (!sessMap.has(key)) {\n        sessMap.set(key, {\n          host,\n          vrf: p.vrf,\n          peer: p.peer,\n          ipver: p.ipver,\n          client: p.client || \"-\",\n          asn: p.asn || \"\",\n          state: \"\",\n          uptime: 0,\n          prefixes: 0,\n          lastError: \"\"\n        });\n      }\n      const o = sessMap.get(key);\n\n      if (p.metric === \"state\") {\n        const raw = safeStr(last);\n        const n = toNum(raw);\n        if (n) {\n          o.state =\n            (n === 6) ? \"ESTABLISHED\" :\n            (n === 5) ? \"OPENCONFIRM\" :\n            (n === 4) ? \"OPENSENT\" :\n            (n === 3) ? \"ACTIVE\" :\n            (n === 2) ? \"CONNECT\" :\n            (n === 1) ? \"IDLE\" :\n            `STATE_${n}`;\n        } else {\n          o.state = raw.toUpperCase();\n        }\nstateSeriesBySessKey.set(key, s);\nstateSeriesByBaseKey.set(baseKey, s);\n      } else if (p.metric === \"uptime\") {\n        o.uptime = toNum(last);\n        uptimeSeriesBySessKey.set(key, s);\n        uptimeSeriesByBaseKey.set(baseKey, s);\n      } else if (p.metric === \"prefixes\") {\n        o.prefixes = toNum(last);\n      } else if (p.metric === \"error\") {\n        o.lastError = safeStr(last);\n      }\n    }\n\n   const sessions = [...sessMap.entries()].map(([sessKey, s]) => {\n  const parts = String(sessKey).split(\"||\");\n  const baseKey = parts.slice(0,4).join(\"||\"); // vrf||peer||ipver||host\n\n  return {\n    ...s,\n    sessKey,\n    baseKey,\n    state: s.state || \"UNKNOWN\",\n    uptime: toNum(s.uptime),\n    prefixes: toNum(s.prefixes),\n    ipNum: (s.ipver === \"IPv4\") ? 4 : (s.ipver === \"IPv6\") ? 6 : 0\n  };\n});\n\n\n    const sessionByKey = new Map(sessions.map(s => [s.sessKey, s]));\n\n    // ========= VRF Pills =========\n    const vrfSet = new Set(sessions.map(s => s.vrf).filter(v => v && v !== \"-\"));\n    const vrfs = [\"ALL\", ...Array.from(vrfSet).sort((a,b)=>a.localeCompare(b))];\n\n    let activeVrf = root.__ispxActiveVrf || \"ALL\";\n    const vrfHost = q(\"#vrfPills\");\n    if (vrfHost) {\n      vrfHost.innerHTML = vrfs.map(v => `<div class=\"u-pill ${v===activeVrf?\"on\":\"\"}\" data-vrf=\"${esc(v)}\">${esc(v)}</div>`).join(\"\");\n\n      if (!vrfHost.__ispxVrfBound) {\n        vrfHost.addEventListener(\"click\", (e) => {\n          const pill = e.target.closest(\".u-pill\");\n          if (!pill) return;\n          activeVrf = pill.getAttribute(\"data-vrf\") || \"ALL\";\n          root.__ispxActiveVrf = activeVrf;\n          root.__ispxPage = 0;\n          qa(\"#vrfPills .u-pill\").forEach(x => x.classList.toggle(\"on\", x.getAttribute(\"data-vrf\") === activeVrf));\n          refreshKPIs();\n          rebuildGroups();\n          renderTop();\n          applyFilter();\n        });\n        vrfHost.__ispxVrfBound = true;\n      }\n    }\n\n    function vrfFilteredSessions(){\n      if (activeVrf === \"ALL\") return sessions;\n      return sessions.filter(s => s.vrf === activeVrf);\n    }\n\n    // ========= KPIs =========\n    function refreshKPIs() {\n      const list = vrfFilteredSessions();\n      const total = list.length;\n      const up = list.filter(x => x.state === \"ESTABLISHED\").length;\n      const al = total - up;\n      const nop = list.filter(x => x.state === \"ESTABLISHED\" && x.prefixes === 0).length;\n\n      setText(\"#kpiTotal\", total);\n      setText(\"#kpiUp\", up);\n      setText(\"#kpiAl\", al);\n      setText(\"#kpiNoPfx\", nop);\n      setText(\"#peersCount\", `${total} peers`);\n    }\n\n    \n// ========= FLAPS (STATE + UPTIME) — RANGE ATUAL (sem persistência) =========\n// Ideia: casar STATE (v4/v6) com UPTIME (v4/v6) para detectar quedas e resets\n// de forma mais linear, evitando falso positivo de itens recém-criados e evitando\n// cache/localStorage travando o painel.\n\nfunction _validState(x){\n  const n = Number(x);\n  if (!Number.isFinite(n)) return null;\n  const i = Math.round(n);\n  if (i < 1 || i > 6) return null;\n  return i;\n}\nfunction _validUptime(x){\n  const n = Number(x);\n  return Number.isFinite(n) && n >= 0 ? n : null;\n}\n\nfunction buildFlapFromStateAndUptime(stateSer, upSer){\n  const st = stateSer ? extractTimeValueArrays(stateSer) : { times: [], values: [] };\n  const up = upSer ? extractTimeValueArrays(upSer) : { times: [], values: [] };\n\n  const stPts = [];\n  for (let i = 0; i < (st.times || []).length; i++){\n    const t = normTs(st.times[i]);\n    const v = _validState((st.values || [])[i]);\n    if (Number.isFinite(t) && v !== null) stPts.push({ t, v });\n  }\n  const upPts = [];\n  for (let i = 0; i < (up.times || []).length; i++){\n    const t = normTs(up.times[i]);\n    const v = _validUptime((up.values || [])[i]);\n    if (Number.isFinite(t) && v !== null) upPts.push({ t, v });\n  }\n\n  // Se não tem praticamente nada, não inventa histórico.\n  if (stPts.length < 2 && upPts.length < 2){\n    return { insufficient: true, count: 0, events: [] };\n  }\n\n  // timeline combinada (step-wise / last-known)\n  const tSet = new Set();\n  for (const p of stPts) tSet.add(p.t);\n  for (const p of upPts) tSet.add(p.t);\n  const timeline = Array.from(tSet).sort((a,b)=>a-b);\n\n  let si = 0, ui = 0;\n  let curState = null;\n  let curUp = null;\n  let prevUp = null;\n\n  let seenEstablished = false;\n\n  let wasUp = false;\n  const events = [];\n\n  const openDown = (t, stVal) => {\n    events.push({ start: t, end: null, state: (stVal === null ? -1 : stVal) });\n  };\n  const closeDown = (t) => {\n    for (let j = events.length - 1; j >= 0; j--){\n      if (events[j] && events[j].end === null){\n        events[j].end = t;\n        break;\n      }\n    }\n  };\n\n  for (let k = 0; k < timeline.length; k++){\n    const t = timeline[k];\n\n    while (si < stPts.length && stPts[si].t <= t){ curState = stPts[si].v; si++; }\n    while (ui < upPts.length && upPts[ui].t <= t){ curUp = upPts[ui].v; ui++; }\n\n    if (curState === 6) seenEstablished = true;\n\n    // \"UP\" = state==6 e (uptime inexistente OU >0). Uptime 0/NULL enquanto established pode acontecer em bordas,\n    // mas aqui tratamos 0 como \"não-up\" pra casar com reset/queda.\n    const isUp = (curState === 6) && (curUp === null || curUp > 0);\n\n    // RESET: state ainda 6 mas uptime voltou pra baixo (reinício de sessão)\n    if (curState === 6 && prevUp !== null && curUp !== null){\n      if (curUp + 5 < prevUp) {\n        // evento instantâneo \"RESET\" (state=0), não abre DOWN prolongado\n        events.push({ start: t, end: t, state: 0 });\n      }\n    }\n\n    // DOWN start: estava UP e deixou de estar UP\n    if (wasUp && !isUp){\n      openDown(t, curState);\n    }\n\n    // DOWN end: estava DOWN e voltou a UP\n    if (!wasUp && isUp){\n      closeDown(t);\n    }\n\n    wasUp = isUp;\n\n    if (curUp !== null) prevUp = curUp;\n  }\n\n  // Anti-falso-positivo: se nunca viu ESTABLISHED no range, não dá pra afirmar \"queda\"\n  if (!seenEstablished){\n    return { insufficient: true, count: 0, events: [] };\n  }\n\n  // Mantém só eventos válidos (start definido)\n  const clean = events.filter(ev => ev && Number.isFinite(ev.start));\n\n  return { insufficient: false, count: clean.length, events: clean };\n}\n\n// cache por render (evita recomputar 100x na tabela)\nconst flapCache = root.__ispxFlapCache || (root.__ispxFlapCache = new Map());\nflapCache.clear();\n\nfunction getStableFlapKey(sessKey){\n  const ss = sessionByKey.get(sessKey);\n  return (ss && ss.baseKey) ? ss.baseKey : sessKey;\n}\n\nfunction getFlapInfo(sessKey){\n  const stableKey = getStableFlapKey(sessKey);\n  if (flapCache.has(stableKey)) return flapCache.get(stableKey);\n\n  const ss = sessionByKey.get(sessKey);\n\n  // Preferir séries por baseKey (mais estável)\n  let stSer = null;\n  let upSer = null;\n\n  if (ss && ss.baseKey){\n    stSer = stateSeriesByBaseKey.get(ss.baseKey) || null;\n    upSer = uptimeSeriesByBaseKey.get(ss.baseKey) || null;\n  }\n  if (!stSer) stSer = stateSeriesBySessKey.get(sessKey) || null;\n  if (!upSer) upSer = uptimeSeriesBySessKey.get(sessKey) || null;\n\n  const r = buildFlapFromStateAndUptime(stSer, upSer);\n  flapCache.set(stableKey, r);\n  return r;\n}\n\nfunction aggByClient(list) {\n      const m = new Map();\n      for (const s of list) {\n        const client = (s.client && s.client !== \"-\") ? s.client : \"(Sem nome)\";\n        const asn = s.asn ? s.asn : \"-\";\n        const k = `${client}||${asn}`;\n        if (!m.has(k)) m.set(k, { client, asn, sessions:0, established:0, prefixes:0 });\n        const a = m.get(k);\n        a.sessions++;\n        if (s.state === \"ESTABLISHED\") a.established++;\n        a.prefixes += toNum(s.prefixes);\n      }\n      return [...m.values()];\n    }\n\n    // ========= TOP CLIENTES =========\n    let scope = root.__ispxTopScope || \"sessions\"; // sessions | established | prefixes | flaps\n\n    function buildClientFlapDetailsHTML(clientName, asn){\n      const list = vrfFilteredSessions().filter(s => {\n        const c = (s.client && s.client !== \"-\") ? s.client : \"(Sem nome)\";\n        const a = s.asn ? s.asn : \"-\";\n        return c === clientName && a === asn;\n      });\n\n      const rows = [];\n      for (const s of list){\n        const info = getFlapInfo(s.sessKey);\n        const flaps = toNum(info.count);\n        if (flaps > 0) rows.push({ ipver: s.ipver, peer: s.peer, flaps });\n      }\n\n      rows.sort((a,b)=> (b.flaps - a.flaps) || safeStr(a.peer).localeCompare(safeStr(b.peer)));\n\n      if (!rows.length){\n        return `<div style=\"opacity:.75;padding:6px\">Nenhum peer com queda detectada no range atual.</div>`;\n      }\n\n      return `\n        <div class=\"u-flapbox\">\n          <div style=\"display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-size:12px;opacity:.85\">\n            <div><b>${esc(clientName)}</b> <span style=\"opacity:.7\">• AS${esc(asn)}</span></div>\n            <div style=\"opacity:.75\">${rows.length} peers</div>\n          </div>\n          <table style=\"width:100%;border-collapse:collapse;font-size:12px\">\n            <thead>\n              <tr>\n                <th style=\"text-align:left;padding:6px;opacity:.7\">Peer</th>\n                <th style=\"text-align:right;padding:6px;opacity:.7\">Quedas</th>\n              </tr>\n            </thead>\n            <tbody>\n              ${rows.map(r => `\n                <tr>\n                  <td style=\"padding:6px;border-top:1px solid rgba(255,255,255,.06)\">\n                    <b>${esc(r.ipver)}</b> • ${esc(r.peer)}\n                  </td>\n                  <td style=\"padding:6px;border-top:1px solid rgba(255,255,255,.06);text-align:right\">\n                    <span class=\"pill pri\">${esc(r.flaps)}</span>\n                  </td>\n                </tr>\n              `).join(\"\")}\n            </tbody>\n          </table>\n        </div>\n      `;\n    }\n    // ========= TOP CLIENTES (FLAPS) POPOVER =========\n    function __ispxEnsureTopPopover(){\n      const id = root.__ispxTopPopId || (root.__ispxTopPopId = \"ispx-top-pop-\" + Math.random().toString(36).slice(2));\n      let el = document.getElementById(id);\n      if (!el){\n        el = document.createElement(\"div\");\n        el.id = id;\n        // inline style to beat Grafana stacking contexts\n        el.style.cssText = [\n          \"position:fixed\",\n          \"z-index:2147483647\",\n          \"display:none\",\n          \"min-width:320px\",\n          \"max-width:min(560px, calc(100vw - 24px))\",\n          \"max-height:min(420px, calc(100vh - 120px))\",\n          \"overflow:auto\",\n          \"border-radius:14px\",\n          \"padding:12px\",\n          \"background:rgba(10,25,40,.94)\",\n          \"backdrop-filter:blur(10px)\",\n          \"box-shadow:0 12px 28px rgba(0,0,0,.38)\",\n          \"border:1px solid rgba(255,255,255,.10)\",\n          \"color:rgba(255,255,255,.92)\",\n          \"pointer-events:auto\",\n          \"transform:translateZ(0)\"\n        ].join(\";\");\n        document.body.appendChild(el);\n\n        // close on outside click\n        document.addEventListener(\"mousedown\", (e) => {\n          if (el.style.display === \"none\") return;\n          const anchor = root.__ispxTopPopAnchor;\n          if (el.contains(e.target)) return;\n          if (anchor && anchor.contains && anchor.contains(e.target)) return;\n          el.style.display = \"none\";\n          root.__ispxTopOpenKey = null;\n        }, { passive:true });\n\n        // close on ESC\n        document.addEventListener(\"keydown\", (e) => {\n          if (e.key === \"Escape\"){\n            el.style.display = \"none\";\n            root.__ispxTopOpenKey = null;\n          }\n        });\n      }\n      return el;\n    }\n\n    function __ispxPlaceTopPopover(popEl, anchorEl){\n      const a = anchorEl.getBoundingClientRect();\n      const margin = 10;\n\n      // show to measure\n      popEl.style.display = \"block\";\n      popEl.style.left = \"0px\";\n      popEl.style.top  = \"0px\";\n\n      const p = popEl.getBoundingClientRect();\n      const vw = window.innerWidth;\n      const vh = window.innerHeight;\n\n      // align left with the TOP CLIENTES card area (anchor left), clamp\n      let left = a.left;\n      if (left + p.width > vw - margin) left = vw - margin - p.width;\n      if (left < margin) left = margin;\n\n      // prefer down; else up\n      const downTop = a.bottom + margin;\n      const upTop   = a.top - margin - p.height;\n      let top = (downTop + p.height <= vh - margin) ? downTop : upTop;\n      if (top < margin) top = margin;\n\n      popEl.style.left = Math.round(left) + \"px\";\n      popEl.style.top  = Math.round(top) + \"px\";\n    }\n\n    function __ispxOpenTopPopover(anchorEl, titleHtml, bodyHtml){\n      const pop = __ispxEnsureTopPopover();\n      root.__ispxTopPopAnchor = anchorEl;\n\n      pop.innerHTML = `\n        <div style=\"display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px\">\n          <div style=\"font-weight:800;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis\">${titleHtml}</div>\n          <button type=\"button\" data-topclose=\"1\"\n            style=\"cursor:pointer;border:0;border-radius:10px;padding:6px 10px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.92)\">\n            Fechar\n          </button>\n        </div>\n        <div>${bodyHtml}</div>\n      `;\n\n      const btn = pop.querySelector('[data-topclose=\"1\"]');\n      if (btn){\n        btn.addEventListener(\"click\", () => {\n          pop.style.display = \"none\";\n          root.__ispxTopOpenKey = null;\n        }, { once:true });\n      }\n\n      __ispxPlaceTopPopover(pop, anchorEl);\n    }\n\n\n\n    function renderTop() {\n      const list = vrfFilteredSessions();\n      // (otimizado) nao pre-calcula flaps para todos os peers a cada refresh;\n      // flaps agora sao calculados sob demanda (scope=flaps / modal / detalhes).\n\n      if (scope === \"flaps\") {\n        const byKey = new Map();\n\n        for (const s of list) {\n          const fl = toNum(getFlapInfo(s.sessKey).count);\n          if (fl <= 0) continue;\n\n          const client = (s.client && s.client !== \"-\") ? s.client : \"(Sem nome)\";\n          const asn = s.asn ? s.asn : \"-\";\n          const k = `${client}||${asn}`;\n\n          if (!byKey.has(k)) byKey.set(k, { client, asn, sessions:0, flaps:0 });\n          const a = byKey.get(k);\n          a.sessions++;\n          a.flaps += fl;\n        }\n\n        const arr = [...byKey.values()]\n          .sort((a,b)=> (b.flaps - a.flaps) || (b.sessions - a.sessions));\n\n        const topBody = q(\"#topBody\");\n        if (!topBody) return;\n\n        if (!arr.length){\n          root.__ispxTopOpenKey = null;\n          topBody.innerHTML = `<tr><td style=\"opacity:.7\">Nenhum cliente com quedas</td><td>—</td></tr>`;\n          return;\n        }\n\n        const openKey = root.__ispxTopOpenKey || null;\n        if (openKey && !arr.some(r => `${r.client}||${r.asn}` === openKey)) {\n          root.__ispxTopOpenKey = null;\n        }\n\n        topBody.innerHTML = arr.slice(0, 10).map(r => {\n          const rk = `${r.client}||${r.asn}`;\n          return `\n            <tr class=\"top-row\" data-topkey=\"${esc(rk)}\" data-client=\"${esc(r.client)}\" data-asn=\"${esc(r.asn)}\">\n              <td><b>${esc(r.client)}</b> <span style=\"opacity:.7\">• AS${esc(r.asn)}</span></td>\n              <td>${esc(r.flaps)}</td>\n            </tr>\n          `;\n        }).join(\"\");\n\n        if (!topBody.__ispxTopDropBound){\n          topBody.addEventListener(\"click\", (e) => {\n            const row = e.target.closest(\"tr.top-row\");\n            if (!row) return;\n            if ((root.__ispxTopScope || \"sessions\") !== \"flaps\") return;\n\n            const rk = row.getAttribute(\"data-topkey\");\n            const client = row.getAttribute(\"data-client\") || \"(Sem nome)\";\n            const asn = row.getAttribute(\"data-asn\") || \"-\";\n            if (!rk) return;\n\n            // toggle: clicking same client closes\n            const pop = __ispxEnsureTopPopover();\n            const isSameOpen = (root.__ispxTopOpenKey === rk) && (pop.style.display !== \"none\");\n            if (isSameOpen){\n              pop.style.display = \"none\";\n              root.__ispxTopOpenKey = null;\n              return;\n            }\n\n            const titleHtml = `<b>${esc(client)}</b> <span style=\"opacity:.7\">• AS${esc(asn)}</span>`;\n            const bodyHtml  = buildClientFlapDetailsHTML(client, asn);\n            __ispxOpenTopPopover(row, titleHtml, bodyHtml);\n            root.__ispxTopOpenKey = rk;\n          });\n\n          topBody.__ispxTopDropBound = true;\n        }\n\n        return;\n      }\n\n      const agg = aggByClient(list);\n      let arr = agg;\n      if (scope === \"sessions\") arr = [...agg].sort((a,b)=> (b.sessions - a.sessions) || (b.prefixes - a.prefixes));\n      else if (scope === \"established\") arr = [...agg].sort((a,b)=> (b.established - a.established) || (b.sessions - a.sessions));\n      else arr = [...agg].sort((a,b)=> (b.prefixes - a.prefixes) || (b.sessions - a.sessions));\n\n      const topBody = q(\"#topBody\");\n      if (!topBody) return;\n\n      topBody.innerHTML = arr.slice(0, 10).map(r => {\n        const val = (scope === \"sessions\") ? r.sessions : (scope === \"established\") ? r.established : r.prefixes;\n        return `\n          <tr>\n            <td><b>${esc(r.client)}</b> <span style=\"opacity:.7\">• AS${esc(r.asn)}</span></td>\n            <td>${esc(val)}</td>\n          </tr>\n        `;\n      }).join(\"\") || `<tr><td style=\"opacity:.7\">Sem dados</td><td>—</td></tr>`;\n    }\n\n    const scopeBtns = qa(\"#topScope button\");\n    if (!root.__ispxTopBound) {\n      scopeBtns.forEach(b => {\n        b.addEventListener(\"click\", () => {\n          scope = b.dataset.scope || \"sessions\";\n          root.__ispxTopScope = scope;\n          scopeBtns.forEach(x => x.classList.toggle(\"on\", x === b));\n          if (scope !== \"flaps\") root.__ispxTopOpenKey = null;\n          renderTop();\n        });\n      });\n      root.__ispxTopBound = true;\n    }\n    scopeBtns.forEach(x => x.classList.toggle(\"on\", (x.dataset.scope || \"sessions\") === scope));\n\n    // ========= MODAL =========\n    const modal = q(\"#modal\");\n    const modalTitle = q(\"#modalTitle\");\n    const modalContent = q(\"#modalContent\");\n    const modalClose = q(\"#modalClose\");\n\n    function openModal(title, html){\n      if (!modal) return;\n      if (modalTitle) modalTitle.textContent = title || \"Detalhes\";\n      if (modalContent) modalContent.innerHTML = html || \"\";\n      modal.classList.add(\"on\");\n    }\n    function closeModal(){\n      if (!modal) return;\n      modal.classList.remove(\"on\");\n    }\n\n    if (modalClose && !modalClose.__bound){\n      modalClose.addEventListener(\"click\", (e)=>{ e.preventDefault(); closeModal(); });\n      modalClose.__bound = true;\n    }\n    if (modal && !modal.__bound){\n      modal.addEventListener(\"click\", (e)=>{ if (e.target === modal) closeModal(); });\n      modal.__bound = true;\n    }\n\n    // ========= CACHE PRINCIPAL =========\n    const detailsCache = root.__ispxDetailsCache || (root.__ispxDetailsCache = new Map());\n    const groupByKey = root.__ispxGroupByKey || (root.__ispxGroupByKey = new Map());\n    let groupArrAll = [];\n\n    function summarizeGroup(arr) {\n      let total = arr.length, up = 0, al = 0, nop = 0;\n      for (const x of arr) {\n        if (x.state === \"ESTABLISHED\") up++;\n        else al++;\n        if (x.state === \"ESTABLISHED\" && toNum(x.prefixes) === 0) nop++;\n      }\n      return { total, up, al, nop };\n    }\n\n    function rebuildGroups() {\n      const groups = new Map();\n      for (const s of vrfFilteredSessions()) {\n        const client = (s.client && s.client.trim()) ? s.client : \"-\";\n        const asn = s.asn ? s.asn : \"-\";\n        const host = s.host || \"-\";\n        const gk = [client, asn, host].join(\"||\");\n        if (!groups.has(gk)) groups.set(gk, []);\n        groups.get(gk).push(s);\n      }\n\n      groupArrAll = [...groups.entries()].map(([k, arr]) => {\n        const [client, asn, host] = k.split(\"||\");\n        const sum = summarizeGroup(arr);\n        return { key:k, client, asn, host, sum, items: arr };\n      });\n\n      groupArrAll.sort((a,b) => (b.sum.al - a.sum.al) || (b.sum.total - a.sum.total) || a.client.localeCompare(b.client));\n\n      detailsCache.clear();\n      groupByKey.clear();\n      for (const g of groupArrAll) groupByKey.set(g.key, g);\n    }\n\n    rebuildGroups();\n\n    // ========= sort =========\n    const sortState = root.__ispxSort || (root.__ispxSort = { col: \"alert\", dir: \"desc\" });\n\n    function applySortHeaderUI() {\n      qa(\".u-table thead th.sortable\").forEach(th => {\n        th.classList.remove(\"sort-asc\", \"sort-desc\");\n        const col = th.getAttribute(\"data-col\");\n        if (col && col === sortState.col) th.classList.add(sortState.dir === \"asc\" ? \"sort-asc\" : \"sort-desc\");\n      });\n    }\n\n    const thead = q(\".u-table thead\");\n    if (thead && !thead.__ispxSortBound) {\n      thead.addEventListener(\"click\", (e) => {\n        const th = e.target.closest(\"th.sortable\");\n        if (!th) return;\n        const col = th.getAttribute(\"data-col\");\n        if (!col) return;\n\n        if (sortState.col === col) sortState.dir = (sortState.dir === \"asc\") ? \"desc\" : \"asc\";\n        else { sortState.col = col; sortState.dir = \"desc\"; }\n\n        root.__ispxSort = sortState;\n        applySortHeaderUI();\n        root.__ispxPage = 0;\n        closeAll();\n        applyFilter(false);\n      });\n      thead.__ispxSortBound = true;\n    }\n    applySortHeaderUI();\n\n    function sortRows(rows) {\n      const dir = (sortState.dir === \"asc\") ? 1 : -1;\n      const col = sortState.col;\n\n      const cmpStr = (a,b) => String(a||\"\").localeCompare(String(b||\"\"), undefined, { sensitivity: \"base\" });\n      const cmpNum = (a,b) => (toNum(a) - toNum(b));\n\n      const getVal = (r) => {\n        if (col === \"client\") return r.client;\n        if (col === \"asn\") return r.asn;\n        if (col === \"host\") return r.host;\n        if (col === \"sessions\") return r.sum.total;\n        if (col === \"up\") return r.sum.up;\n        if (col === \"alert\") return r.sum.al;\n        if (col === \"nopfx\") return r.sum.nop;\n        return r.sum.al;\n      };\n\n      const isNumeric = (col === \"sessions\" || col === \"up\" || col === \"alert\" || col === \"nopfx\" || col === \"asn\");\n\n      return [...rows].sort((ra, rb) => {\n        const va = getVal(ra);\n        const vb = getVal(rb);\n        const base = isNumeric ? cmpNum(va, vb) : cmpStr(va, vb);\n        if (base) return base * dir;\n        return ((rb.sum.al - ra.sum.al) || (rb.sum.total - ra.sum.total) || cmpStr(ra.client, rb.client));\n      });\n    }\n\n    function buildChildTbodyHTML(lines){\n  return lines.map(s => {\n    const st = safeStr(s.state);\n    const cls = (st === \"ESTABLISHED\") ? \"good\" : (st === \"ACTIVE\" || st === \"CONNECT\") ? \"warn\" : \"bad\";\n    const hasHist = true;\n\n    const pfx = toNum(s.prefixes);\n\n    return `\n      <tr>\n        <td><b>${esc(s.ipver)}</b></td>\n        <td>${esc(s.vrf)}</td>\n        <td>${esc(s.peer)}</td>\n        <td><span class=\"pill ${cls}\">${esc(st || \"-\")}</span></td>\n        <td>${esc(fmtUptime(s.uptime))}</td>\n        <td title=\"${esc(pfx.toLocaleString('pt-BR'))}\">${esc(fmtPrefixes(pfx))}</td>\n        <td>\n          <div class=\"le-wrap\">\n            <span>${esc(s.lastError || \"-\")}</span>\n            ${(() => {\n              const tip = explainLastError(s.lastError || \"-\");\n              return tip ? `<span class=\"le-help\" data-tip=\"${esc(tip)}\" title=\"${esc(tip)}\">?</span>` : \"\";\n            })()}\n          </div>\n        </td>\n        <td class=\"center\">\n          ${hasHist ? `<button class=\"u-hbtn\" data-hist=\"${esc(s.sessKey)}\" title=\"Ver histórico de quedas\">Hist</button>` : `<span style=\"opacity:.55\">—</span>`}\n        </td>\n      </tr>\n    `;\n  }).join(\"\");\n}\n\n\n    function closeAll() {\n      qa(\".u-child\").forEach(tr => tr.style.display = \"none\");\n      qa(\".u-exp\").forEach(b => b.setAttribute(\"aria-expanded\", \"false\"));\n      root.__ispxOpenKey = null;\n    }\n\n    function toggle(key) {\n      const btn   = q(`.u-exp[data-child=\"${CSS.escape(key)}\"]`);\n      const child = q(`.u-child[data-child=\"${CSS.escape(key)}\"]`);\n      if (!btn || !child) return;\n\n      const isOpen = btn.getAttribute(\"aria-expanded\") === \"true\";\n\n      if (root.__ispxOpenKey && root.__ispxOpenKey !== key) {\n        const oldKey = root.__ispxOpenKey;\n        const oldBtn = q(`.u-exp[data-child=\"${CSS.escape(oldKey)}\"]`);\n        const oldCh  = q(`.u-child[data-child=\"${CSS.escape(oldKey)}\"]`);\n        if (oldBtn) oldBtn.setAttribute(\"aria-expanded\", \"false\");\n        if (oldCh)  oldCh.style.display = \"none\";\n      }\n\n      if (isOpen) {\n        btn.setAttribute(\"aria-expanded\", \"false\");\n        child.style.display = \"none\";\n        root.__ispxOpenKey = null;\n        return;\n      }\n\n      if (!detailsCache.has(key)) {\n        const g = groupByKey.get(key);\n        const lines = (g?.items || []).slice().sort((a,b)=>\n          String(a.ipver).localeCompare(String(b.ipver)) || String(a.peer).localeCompare(String(b.peer))\n        );\n        detailsCache.set(key, buildChildTbodyHTML(lines));\n      }\n\n      const tbody = q(`tbody[data-childtbody=\"${CSS.escape(key)}\"]`);\n      if (tbody) tbody.innerHTML = detailsCache.get(key);\n\n      btn.setAttribute(\"aria-expanded\", \"true\");\n      child.style.display = \"table-row\";\n      root.__ispxOpenKey = key;\n    }\n\n    function render(rows) {\n      const body = q(\"#bgpTableBody\");\n      if (!body) return;\n\n      body.innerHTML = rows.map(r => `\n        <tr class=\"u-row\" data-childkey=\"${esc(r.key)}\" data-key=\"${esc(r.client)} ${esc(r.asn)} ${esc(r.host)}\">\n          <td class=\"client\">${esc(r.client)}</td>\n          <td>${esc(r.asn)}</td>\n          <td>${esc(r.host)}</td>\n          <td class=\"center\"><span class=\"pill pri\">${r.sum.total}</span></td>\n          <td class=\"center\"><span class=\"pill good\">${r.sum.up}</span></td>\n          <td class=\"center\"><span class=\"pill bad\">${r.sum.al}</span></td>\n          <td class=\"center\"><span class=\"pill warn\">${r.sum.nop}</span></td>\n          <td class=\"center\">\n            <button class=\"u-exp\" aria-expanded=\"false\" data-child=\"${esc(r.key)}\" title=\"Expandir\">\n              <span class=\"arrow\">▶</span>\n            </button>\n          </td>\n        </tr>\n\n        <tr class=\"u-child\" data-child=\"${esc(r.key)}\" style=\"display:none\">\n          <td colspan=\"8\">\n            <div class=\"child-wrap\">\n              <table class=\"u-mini-sub\">\n                <thead>\n                  <tr>\n                    <th style=\"width:7%\">IPVER</th>\n                    <th style=\"width:12%\">VRF</th>\n                    <th style=\"width:24%\">PEER</th>\n                    <th style=\"width:12%\">STATUS</th>\n                    <th style=\"width:14%\">UPTIME</th>\n                    <th style=\"width:12%\">TOTAL PREFIX</th>\n                    <th>LAST ERROR</th>\n                    <th style=\"width:7%\">HIST</th>\n                  </tr>\n                </thead>\n                <tbody data-childtbody=\"${esc(r.key)}\">\n                  <tr><td colspan=\"8\" style=\"padding:10px;opacity:.7\">Clique para carregar…</td></tr>\n                </tbody>\n              </table>\n            </div>\n          </td>\n        </tr>\n      `).join(\"\");\n    }\n\n    // ========= PAGINAÇÃO =========\n    const pgPrev = q(\"#pgPrev\");\n    const pgNext = q(\"#pgNext\");\n    const pgInfo = q(\"#pgInfo\");\n    const pgSize = q(\"#pgSize\");\n\n    let pageSize = toNum(root.__ispxPageSize) || 15;\n    let page = toNum(root.__ispxPage) || 0;\n\n    if (pgSize && !pgSize.__bound) {\n      pgSize.value = String(pageSize);\n      pgSize.addEventListener(\"change\", () => {\n        root.__ispxPageSize = toNum(pgSize.value) || 25;\n        root.__ispxPage = 0;\n        closeAll();\n        applyFilter();\n      });\n      pgSize.__bound = true;\n    } else if (pgSize) {\n      pgSize.value = String(pageSize);\n    }\n\n    function setPager(totalRows){\n      pageSize = toNum(root.__ispxPageSize) || pageSize || 25;\n      page = toNum(root.__ispxPage) || 0;\n\n      const totalPages = Math.max(1, Math.ceil(totalRows / pageSize));\n      page = Math.max(0, Math.min(page, totalPages - 1));\n      root.__ispxPage = page;\n\n      if (pgInfo) pgInfo.textContent = `Página ${page+1}/${totalPages} • ${totalRows} linhas`;\n      if (pgPrev) pgPrev.disabled = (page <= 0);\n      if (pgNext) pgNext.disabled = (page >= totalPages - 1);\n\n      if (pgPrev && !pgPrev.__bound) {\n        pgPrev.addEventListener(\"click\", () => {\n          root.__ispxPage = Math.max(0, (toNum(root.__ispxPage)||0) - 1);\n          closeAll();\n          applyFilter(false);\n        });\n        pgPrev.__bound = true;\n      }\n      if (pgNext && !pgNext.__bound) {\n        pgNext.addEventListener(\"click\", () => {\n          root.__ispxPage = (toNum(root.__ispxPage)||0) + 1;\n          closeAll();\n          applyFilter(false);\n        });\n        pgNext.__bound = true;\n      }\n\n      return { totalPages, page, pageSize };\n    }\n\n    // ========= Delegação de clique =========\n    const clickHost = q(\".u-table-scroll\") || root;\n    if (clickHost.__ispxClickHandler) clickHost.removeEventListener(\"click\", clickHost.__ispxClickHandler, true);\n\n    clickHost.__ispxClickHandler = (e) => {\n      const histBtn = e.target.closest(\".u-hbtn\");\n      if (histBtn) {\n        e.preventDefault();\n        e.stopPropagation();\n        const sessKey = histBtn.getAttribute(\"data-hist\");\n        const s = sessKey ? sessionByKey.get(sessKey) : null;\n        const info = sessKey ? getFlapInfo(sessKey) : { count:0, events:[], insufficient:true };\n\n        if (!s) {\n          openModal(\"Histórico de quedas\", `<div style=\"opacity:.75;padding:8px\">Sem dados para este peer.</div>`);\n          return;\n        }\n\n        if (info.insufficient) {\n          openModal(\n            `Histórico de quedas — ${esc(s.client)} • AS${esc(s.asn||\"-\")}`,\n            `<div style=\"opacity:.75;padding:8px\">\n              Este peer <b>não ficou ESTABLISHED (6)</b> em nenhum ponto dentro do range atual, então <b>não é possível afirmar quedas</b> por transição 6→≠6.<br>\n              (Ele pode estar permanentemente em CONNECT/ACTIVE por configuração, bloqueio, rota/ACL, etc.)\n            </div>`\n          );\n          return;\n        }\n\n        if (!info.events || !info.events.length) {\n          openModal(\n            `Histórico de quedas — ${esc(s.client)} • AS${esc(s.asn||\"-\")}`,\n            `<div style=\"opacity:.75;padding:8px\">Nenhuma queda detectada no intervalo atual.</div>`\n          );\n          return;\n        }\n\n        const rows = info.events.slice().sort((a,b)=> (b.start - a.start)).slice(0, 200).map(ev => {\n          const stName = stateNumToName(toNum(ev.state));\n          const start = fmtDT(ev.start);\n          const end = ev.end ? fmtDT(ev.end) : \"(ainda DOWN)\";\n          const dur = ev.end ? fmtUptime(Math.max(0, Math.floor((normTs(ev.end) - normTs(ev.start))/1000))) : \"—\";\n          return `<tr>\n            <td>${esc(start)}</td>\n            <td>${esc(end)}</td>\n            <td>${esc(dur)}</td>\n            <td><span class=\"pill ${(stName===\"ESTABLISHED\")?\"good\":\"bad\"}\">${esc(stName)}</span></td>\n          </tr>`;\n        }).join(\"\");\n\n        const html = `\n          <div style=\"opacity:.8;margin-bottom:8px\">\n            <b>${esc(s.ipver)}</b> • VRF <b>${esc(s.vrf)}</b> • Peer <b>${esc(s.peer)}</b><br>\n            Quedas detectadas: <b>${esc(info.count)}</b> (limite de exibição: 200)\n          </div>\n          <table class=\"u-top\" style=\"width:100%\">\n            <thead><tr><th>Início</th><th>Fim</th><th>Duração</th><th>Estado</th></tr></thead>\n            <tbody>${rows}</tbody>\n          </table>\n        `;\n        openModal(`Histórico de quedas — ${esc(s.client)} • AS${esc(s.asn||\"-\")}`, html);\n        return;\n      }\n\n      const expBtn = e.target.closest(\".u-exp\");\n      if (expBtn) {\n        e.preventDefault();\n        e.stopPropagation();\n        const key = expBtn.getAttribute(\"data-child\");\n        if (key) toggle(key);\n        return;\n      }\n\n      const row = e.target.closest(\"tr.u-row\");\n      if (row) {\n        const key = row.getAttribute(\"data-childkey\");\n        if (key) toggle(key);\n      }\n    };\n    clickHost.addEventListener(\"click\", clickHost.__ispxClickHandler, true);\n\n    const inp = q(\"#search\");\n\n    function applyFilter(resetPage = true) {\n      const term = safeStr(inp?.value).toLowerCase().trim();\n\n      let rows = groupArrAll;\n      if (term) rows = rows.filter(r => (`${r.client} ${r.asn} ${r.host}`.toLowerCase().includes(term)));\n\n      rows = sortRows(rows);\n      if (resetPage) root.__ispxPage = 0;\n\n      const pager = setPager(rows.length);\n      const start = pager.page * pager.pageSize;\n      const pageRows = rows.slice(start, start + pager.pageSize);\n\n      render(pageRows);\n\n      if (root.__ispxOpenKey) requestAnimationFrame(() => toggle(root.__ispxOpenKey));\n\n      setText(\"#rowsHint\", `${rows.length} linhas`);\n      setText(\"#tableCount\", `${rows.length} linhas`);\n    }\n\n    if (inp) {\n      if (inp.__ispxInputHandler) inp.removeEventListener(\"input\", inp.__ispxInputHandler);\n      let t = 0;\n      inp.__ispxInputHandler = () => { clearTimeout(t); t = setTimeout(() => applyFilter(true), 150); };\n      inp.addEventListener(\"input\", inp.__ispxInputHandler);\n    }\n\n    // ========= start =========\n    refreshKPIs();\n    renderTop();\n    applyFilter(false);\n\n    // ========= tooltip flutuante LAST ERROR =========\n    (function enableFloatingLastErrorTooltip(){\n      if (window.__ispxLeFloatTipBound) return;\n      window.__ispxLeFloatTipBound = true;\n\n      let tip = document.querySelector(\".le-float-tip\");\n      let arrow = document.querySelector(\".le-float-arrow\");\n\n      if (!tip) {\n        tip = document.createElement(\"div\");\n        tip.className = \"le-float-tip\";\n        tip.style.display = \"none\";\n        document.body.appendChild(tip);\n      }\n      if (!arrow) {\n        arrow = document.createElement(\"div\");\n        arrow.className = \"le-float-arrow\";\n        arrow.style.display = \"none\";\n        document.body.appendChild(arrow);\n      }\n\n      const clamp = (v, a, b) => Math.max(a, Math.min(b, v));\n      let lastEl = null;\n\n      function showFor(el){\n        const text = el?.getAttribute?.(\"data-tip\") || el?.getAttribute?.(\"title\") || \"\";\n        if (!text) return;\n\n        lastEl = el;\n        tip.textContent = text;\n\n        tip.style.display = \"block\";\n        arrow.style.display = \"block\";\n\n        tip.classList.remove(\"is-on\");\n        arrow.classList.remove(\"is-on\");\n\n        const r = el.getBoundingClientRect();\n        const pad = 10;\n\n        const tw = tip.offsetWidth || 260;\n        const th = tip.offsetHeight || 60;\n\n        const vw = window.innerWidth;\n        const vh = window.innerHeight;\n\n        const preferTop = (r.top > th + 18);\n        const top = preferTop ? (r.top - th - 14) : (r.bottom + 14);\n\n        let left = r.left + (r.width / 2) - (tw / 2);\n        left = clamp(left, pad, vw - tw - pad);\n\n        tip.style.top = `${clamp(top, pad, vh - th - pad)}px`;\n        tip.style.left = `${left}px`;\n\n        const ax = clamp(r.left + r.width/2 - 5, pad, vw - 10 - pad);\n        const ay = preferTop ? (r.top - 9) : (r.bottom + 5);\n\n        arrow.style.left = `${ax}px`;\n        arrow.style.top = `${clamp(ay, pad, vh - 10 - pad)}px`;\n\n        requestAnimationFrame(() => {\n          tip.classList.add(\"is-on\");\n          arrow.classList.add(\"is-on\");\n        });\n      }\n\n      function hide(){\n        lastEl = null;\n        tip.classList.remove(\"is-on\");\n        arrow.classList.remove(\"is-on\");\n        setTimeout(() => {\n          tip.style.display = \"none\";\n          arrow.style.display = \"none\";\n        }, 80);\n      }\n\n      const onOver = (e) => {\n        const el = e.target && e.target.closest ? e.target.closest(\".le-help\") : null;\n        if (!el) return;\n        showFor(el);\n      };\n      const onOut = (e) => {\n        const el = e.target && e.target.closest ? e.target.closest(\".le-help\") : null;\n        if (!el) return;\n        hide();\n      };\n\n      document.addEventListener(\"pointerover\", onOver, { passive: true, capture: true });\n      document.addEventListener(\"pointerout\", onOut, { passive: true, capture: true });\n      // (otimizado) remove listeners duplicados de mouseover/mouseout; pointer events ja cobrem.\n      window.addEventListener(\"scroll\", hide, { passive: true, capture: true });\n      window.addEventListener(\"resize\", hide, { passive: true });\n      // (otimizado) removido MutationObserver (custo extra).\n    })();\n\n  } catch (e) {\n    console.error(\"onRender error:\", e);\n    throw e;\n  }\n})();\n",
+        "overflow": "hidden",
+        "panelupdateOnMount": true,
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull",
+            "last",
+            "firstNotNull",
+            "first",
+            "min",
+            "max",
+            "mean",
+            "sum",
+            "count",
+            "range",
+            "delta",
+            "step",
+            "diff",
+            "logmin",
+            "allIsZero",
+            "allIsNull",
+            "diffperc"
+          ]
+        },
+        "renderOnMount": true,
+        "rootCSS": "",
+        "useGrafanaScrollbar": true
+      },
+      "pluginVersion": "2.2.1",
+      "targets": [
+        {
+          "application": {
+            "filter": ""
+          },
+          "countTriggersBy": "",
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "da21d1ff-a442-4de3-bea5-852819006f0f"
+          },
+          "functions": [],
+          "group": {
+            "filter": "/.*/"
+          },
+          "hide": false,
+          "host": {
+            "filter": "$Hosts"
+          },
+          "item": {
+            "filter": "/.*state v4.*/"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "macro": {
+            "filter": ""
+          },
+          "options": {
+            "count": false,
+            "disableDataAlignment": false,
+            "showDisabledItems": false,
+            "skipEmptyValues": false,
+            "useTrends": "default",
+            "useZabbixValueMapping": false
+          },
+          "proxy": {
+            "filter": ""
+          },
+          "queryType": "0",
+          "refId": "TRANSITO EAI",
+          "resultFormat": "time_series",
+          "schema": 12,
+          "table": {
+            "skipEmptyValues": false
+          },
+          "tags": {
+            "filter": ""
+          },
+          "textFilter": "",
+          "trigger": {
+            "filter": ""
+          }
+        },
+        {
+          "application": {
+            "filter": ""
+          },
+          "countTriggersBy": "",
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "da21d1ff-a442-4de3-bea5-852819006f0f"
+          },
+          "functions": [],
+          "group": {
+            "filter": "/.*/"
+          },
+          "hide": false,
+          "host": {
+            "filter": "$Hosts"
+          },
+          "item": {
+            "filter": "/.*state v6.*/"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "macro": {
+            "filter": ""
+          },
+          "options": {
+            "count": false,
+            "disableDataAlignment": false,
+            "showDisabledItems": false,
+            "skipEmptyValues": false,
+            "useTrends": "default",
+            "useZabbixValueMapping": false
+          },
+          "proxy": {
+            "filter": ""
+          },
+          "queryType": "0",
+          "refId": "B",
+          "resultFormat": "time_series",
+          "schema": 12,
+          "table": {
+            "skipEmptyValues": false
+          },
+          "tags": {
+            "filter": ""
+          },
+          "textFilter": "",
+          "trigger": {
+            "filter": ""
+          }
+        },
+        {
+          "application": {
+            "filter": ""
+          },
+          "countTriggersBy": "",
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "da21d1ff-a442-4de3-bea5-852819006f0f"
+          },
+          "functions": [],
+          "group": {
+            "filter": "/.*/"
+          },
+          "hide": false,
+          "host": {
+            "filter": "$Hosts"
+          },
+          "item": {
+            "filter": "/.*uptime v4.*/"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "macro": {
+            "filter": ""
+          },
+          "options": {
+            "count": false,
+            "disableDataAlignment": false,
+            "showDisabledItems": false,
+            "skipEmptyValues": false,
+            "useTrends": "default",
+            "useZabbixValueMapping": false
+          },
+          "proxy": {
+            "filter": ""
+          },
+          "queryType": "0",
+          "refId": "E",
+          "resultFormat": "time_series",
+          "schema": 12,
+          "table": {
+            "skipEmptyValues": false
+          },
+          "tags": {
+            "filter": ""
+          },
+          "textFilter": "",
+          "trigger": {
+            "filter": ""
+          }
+        },
+        {
+          "application": {
+            "filter": ""
+          },
+          "countTriggersBy": "",
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "da21d1ff-a442-4de3-bea5-852819006f0f"
+          },
+          "functions": [],
+          "group": {
+            "filter": "/.*/"
+          },
+          "hide": false,
+          "host": {
+            "filter": "$Hosts"
+          },
+          "item": {
+            "filter": "/.*uptime v6.*/"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "macro": {
+            "filter": ""
+          },
+          "options": {
+            "count": false,
+            "disableDataAlignment": false,
+            "showDisabledItems": false,
+            "skipEmptyValues": false,
+            "useTrends": "default",
+            "useZabbixValueMapping": false
+          },
+          "proxy": {
+            "filter": ""
+          },
+          "queryType": "0",
+          "refId": "F",
+          "resultFormat": "time_series",
+          "schema": 12,
+          "table": {
+            "skipEmptyValues": false
+          },
+          "tags": {
+            "filter": ""
+          },
+          "textFilter": "",
+          "trigger": {
+            "filter": ""
+          }
+        },
+        {
+          "application": {
+            "filter": ""
+          },
+          "countTriggersBy": "",
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "da21d1ff-a442-4de3-bea5-852819006f0f"
+          },
+          "functions": [],
+          "group": {
+            "filter": "/.*/"
+          },
+          "hide": false,
+          "host": {
+            "filter": "$Hosts"
+          },
+          "item": {
+            "filter": "/Total Prefixes BGP v4.*/"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "macro": {
+            "filter": ""
+          },
+          "options": {
+            "count": false,
+            "disableDataAlignment": false,
+            "showDisabledItems": false,
+            "skipEmptyValues": false,
+            "useTrends": "default",
+            "useZabbixValueMapping": false
+          },
+          "proxy": {
+            "filter": ""
+          },
+          "queryType": "0",
+          "refId": "G",
+          "resultFormat": "time_series",
+          "schema": 12,
+          "table": {
+            "skipEmptyValues": false
+          },
+          "tags": {
+            "filter": ""
+          },
+          "textFilter": "",
+          "trigger": {
+            "filter": ""
+          }
+        },
+        {
+          "application": {
+            "filter": ""
+          },
+          "countTriggersBy": "",
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "da21d1ff-a442-4de3-bea5-852819006f0f"
+          },
+          "functions": [],
+          "group": {
+            "filter": "/.*/"
+          },
+          "hide": false,
+          "host": {
+            "filter": "$Hosts"
+          },
+          "item": {
+            "filter": "/Total Prefixes BGP v6.*/"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "macro": {
+            "filter": ""
+          },
+          "options": {
+            "count": false,
+            "disableDataAlignment": false,
+            "showDisabledItems": false,
+            "skipEmptyValues": false,
+            "useTrends": "default",
+            "useZabbixValueMapping": false
+          },
+          "proxy": {
+            "filter": ""
+          },
+          "queryType": "0",
+          "refId": "H",
+          "resultFormat": "time_series",
+          "schema": 12,
+          "table": {
+            "skipEmptyValues": false
+          },
+          "tags": {
+            "filter": ""
+          },
+          "textFilter": "",
+          "trigger": {
+            "filter": ""
+          }
+        },
+        {
+          "application": {
+            "filter": ""
+          },
+          "countTriggersBy": "",
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "da21d1ff-a442-4de3-bea5-852819006f0f"
+          },
+          "functions": [],
+          "group": {
+            "filter": "/.*/"
+          },
+          "hide": false,
+          "host": {
+            "filter": "$Hosts"
+          },
+          "item": {
+            "filter": "/BGP Last Error v4.*/"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "macro": {
+            "filter": ""
+          },
+          "options": {
+            "count": false,
+            "disableDataAlignment": false,
+            "showDisabledItems": false,
+            "skipEmptyValues": false,
+            "useTrends": "default",
+            "useZabbixValueMapping": false
+          },
+          "proxy": {
+            "filter": ""
+          },
+          "queryType": "2",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "schema": 12,
+          "table": {
+            "skipEmptyValues": false
+          },
+          "tags": {
+            "filter": ""
+          },
+          "textFilter": "",
+          "trigger": {
+            "filter": ""
+          }
+        },
+        {
+          "application": {
+            "filter": ""
+          },
+          "countTriggersBy": "",
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "da21d1ff-a442-4de3-bea5-852819006f0f"
+          },
+          "functions": [],
+          "group": {
+            "filter": "/.*/"
+          },
+          "hide": false,
+          "host": {
+            "filter": "$Hosts"
+          },
+          "item": {
+            "filter": "/BGP Last Error v6.*/"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "macro": {
+            "filter": ""
+          },
+          "options": {
+            "count": false,
+            "disableDataAlignment": false,
+            "showDisabledItems": false,
+            "skipEmptyValues": false,
+            "useTrends": "default",
+            "useZabbixValueMapping": false
+          },
+          "proxy": {
+            "filter": ""
+          },
+          "queryType": "2",
+          "refId": "C",
+          "resultFormat": "time_series",
+          "schema": 12,
+          "table": {
+            "skipEmptyValues": false
+          },
+          "tags": {
+            "filter": ""
+          },
+          "textFilter": "",
+          "trigger": {
+            "filter": ""
+          },
+          "useCaptureGroups": false
+        }
+      ],
+      "title": "",
+      "transparent": true,
+      "type": "gapit-htmlgraphics-panel"
+    }
+  ],
+  "preload": false,
+  "refresh": "1m",
+  "schemaVersion": 42,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "text": "BGP-NE8000-F1A-CONTAINER",
+          "value": "BGP-NE8000-F1A-CONTAINER"
+        },
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "da21d1ff-a442-4de3-bea5-852819006f0f"
+        },
+        "definition": "Zabbix - host",
+        "includeAll": false,
+        "name": "Hosts",
+        "options": [],
+        "query": {
+          "application": "",
+          "group": "/.*/",
+          "host": "/BGP-NE8000-F1A-MGA|BGP-NE8000-F1A-CONTAINER/",
+          "item": "",
+          "itemTag": "",
+          "queryType": "host"
+        },
+        "refresh": 1,
+        "regex": "",
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-2d",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Grafana Labs - BGP",
+  "uid": "widbxrb",
+  "version": 1
+}
